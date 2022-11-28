@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Lab#3 – DOM</title>
+  </head>
+  <body>
+    <h1>Student Name</h1>
+    <p>This is Student Introduction</p>
+    <table id="studentCourses" class="courses">
+      <thead>
+        <tr>
+          <th>Course #</th>
+          <th>Course Name</th>
+          <th>Credit Hour</th>
+          <th>Year Taken</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="row1" class="row">
+          <td>Course 1</td>
+          <td>Javascript</td>
+          <td>3+1</td>
+          <td>2021</td>
+        </tr>
+        <tr id="row2" class="row">
+          <td>Course 2</td>
+          <td>Cascading Style Sheet</td>
+          <td>2</td>
+          <td>2019</td>
+        </tr>
+        <tr id="row3" class="row">
+          <td>Course 3</td>
+          <td>Hypertext Markup Language</td>
+          <td>3+2</td>
+          <td>2018</td>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+
+    <input type="button" value="Add New Course" onclick="addNewCourse();" />
+    <input type="button" value="Delete Course" onclick="deleteCourse();" />
+    <input type="button" value="Update Course" onclick="updateCourse();" />
+
+    <div>
+      <ul>
+        <li>
+          <a href="https://www.ssuet.edu.pk/"> Homepage </a>
+        </li>
+        <li>
+          <a href="#"> About </a>
+        </li>
+        <li>
+          <a href="#"> Contact </a>
+        </li>
+        <li><a href="#"> Terms of use </a></li>
+        <li>
+          <a href="#"> Join Us </a>
+        </li>
+      </ul>
+    </div>
+    <script>
+      let name = getCookie("name");
+      if (name) {
+        document.getElementById("student_name").innerText = name;
+        document.getElementById("background").style.backgroundColor = "#7bed9f"; //green
+      } else {
+        document.getElementById("background").style.backgroundColor = "#a4b0be";
+        //gray
+      }
+      console.log(window.history.state);
+      function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+    </script>
+    <script>
+      //This declarative function will be called on 'Add New Row' button click and add new row
+      function addNewCourse() {
+        //1 - Find the 'body' element
+        const body = document.querySelector("tbody");
+
+        //2 - Create elements using document.createElement API (method)
+        const row = document.createElement("tr"); //Create 'tr' element
+        const tdCourseID = document.createElement("td"); //Create 'td' element
+        const tdCourseName = document.createElement("td");
+        const tdCourseHour = document.createElement("td"); //Create 'td' element
+        const tdYearTaken = document.createElement("td"); //Create 'td' element
+
+        const courseId = Math.round(Math.random() * 100) + 4;
+        const courseName = Math.round(Math.random() * 500) + 50;
+        const courseHour = Math.floor(Math.random() * 10) + 1;
+        const yearTaken = Math.round(Math.random() * 2020) + 2020;
+        row.id = "row" + courseId;
+
+        //3 - Update td's 'innerHTML' (basically element content - anything within the angle brackets)
+        tdCourseID.innerHTML = "Course " + courseId;
+        tdCourseName.innerHTML = "Course - DOM - " + courseName;
+        tdCourseHour.innerHTML = courseHour;
+        tdYearTaken.innerHTML = yearTaken;
+
+        //4 - Insert newly created 'td's into newly created 'tr' using element's appendChild API
+        row.appendChild(tdCourseID);
+        row.appendChild(tdCourseName);
+        row.appendChild(tdCourseHour);
+        row.appendChild(tdYearTaken);
+
+        //5 - Finally insert newly created 'row' into 'body' element
+        body.appendChild(row);
+      }
+
+      function deleteCourse() {
+        //Ask for course# using prompt
+        const courseId = prompt("Please enter course#");
+
+        //If user has entered course#
+        if (courseId) {
+          //Find the row containing the 'course #' entered by the user
+          const row = document.getElementById("row" + courseId);
+          if (row) {
+            //Find the parent of the 'row' just found so that it can be removed from its child list
+            const body = document.querySelector("tbody");
+
+            //Finally remove it from 'tbody' element
+            body.removeChild(row);
+          }
+        }
+      }
+
+      function updateCourse() {
+        const newCourseYear = prompt(
+          "Please enter course# and new year,new course name and new credit hour delimited by comma"
+        );
+
+        //If the user has entered course# and year taken
+        if (newCourseYear) {
+          //Split the comma separated input entered by the user. Example input; 3,2021
+          const courseId = newCourseYear.split(",")[0];
+          const courseYear = newCourseYear.split(",")[1];
+          const courseName = newCourseYear.split(",")[2];
+          const courseHour = newCourseYear.split(",")[3];
+
+          //Find the row containing the 'course #' entered by the user
+          const row = document.getElementById("row" + courseId);
+          if (row) {
+            //Find the 'year taken' td element within the 'row' entered by the user
+            const tdYearTaken = row.querySelector(
+              "#row" + courseId + " > td:nth-child(4)"
+            );
+            const tdCourseName = row.querySelector(
+              "#row" + courseId + " > td:nth-child(2)"
+            );
+            const tdCourseHour = row.querySelector(
+              "#row" + courseId + " > td:nth-child(3)"
+            );
+            //Finally update the new 'year taken' entered by the user using 'innerHTML' property of element
+            tdYearTaken.innerHTML = courseYear;
+            tdCourseName.innerHTML = courseName;
+            tdCourseHour.innerHTML = courseHour;
+          }
+        } else {
+          alert("Invalid Input");
+        }
+      }
+    </script>
+  </body>
+</html>
