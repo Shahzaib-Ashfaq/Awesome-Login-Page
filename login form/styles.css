@@ -1,0 +1,47 @@
+
+body {
+    font-family: "Open Sans", sans-serif;
+  }
+  
+  form {
+    max-width: 300px;
+  }
+  
+  input {
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    border: 2px solid rgb(5, 5, 5);
+    border-radius: .1875rem;
+    box-sizing: border-box;
+    display: block;
+    font-size: .875rem;
+    margin-bottom: 3px;
+    padding: .275px;
+    width: 100%;
+  }
+  
+  input[type="checkbox"] {
+    -webkit-appearance: checkbox;
+       -moz-appearance: checkbox;
+            appearance: checkbox;
+    display: inline-block;
+    width: auto;
+  }
+  
+  input[type="password"] {
+    margin-bottom: .5rem;
+  }
+  
+  input[type="submit"] {
+    background-color: #015294;
+    border: none;
+    color: #fff;
+    font-size: 1rem;
+    padding: .5rem 1rem;
+  }
+  
+  label {
+    color: #666;
+    font-size: .875rem;
+  }
